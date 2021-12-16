@@ -1,0 +1,54 @@
+name: 'Clojure NVD Scan'
+description: 'Scans a Clojure deps.edn project for vulnerabilities'
+inputs:
+  config-filename:
+    description: 'Config file path'
+    required: false
+    default: '""'
+  aliases:
+    description: 'colon separated list of deps.edn alias(es) to run the scan on'
+    required: false
+    default: ''
+  clojure-version:
+    description: 'clojure cli version'
+    required: false
+    default: '1.10.3.1040'
+  nvd-clojure-version:
+    description: 'version of the nvd-clojure tool'
+    required: false
+    default: 'RELEASE'
+runs:
+  using: "composite"
+  steps:
+
+    - uses: DeLaGuardo/setup-clojure@3.5
+      with:
+        cli: ${{ inputs.clojure-version }}
+
+    - name: Cache maven
+      uses: actions/cache@v2.1.7
+      env:
+        cache-name: cache-maven
+      with:
+        path: ~/.m2
+        key: ${{ runner.os }}-nvd-${{ env.cache-name }}-${{ hashFiles('**/deps.edn') }}
+        restore-keys: |
+          ${{ runner.os }}-nvd-${{ env.cache-name }}-
+          ${{ runner.os }}-nvd-
+          ${{ runner.os }}-
+
+    - name: Cache gitlibs
+      uses: actions/cache@v2.1.7
+      env:
+        cache-name: cache-gitlibs
+      with:
+        path: ~/.gitlibs
+        key: ${{ runner.os }}-nvd-${{ env.cache-name }}-${{ hashFiles('**/deps.edn') }}
+        restore-keys: |
+          ${{ runner.os }}-nvd-${{ env.cache-name }}-
+          ${{ runner.os }}-nvd-
+          ${{ runner.os }}-
+
+    - name: NVD Scan
+      run: clojure -Sdeps '{:deps {nvd-clojure/nvd-clojure {:mvn/version "${{ inputs.nvd-clojure-version }}"}}}' -M -m nvd.task.check ${{ inputs.config-filename }} "$(clojure -A:${{ inputs.aliases }} -Spath)"
+      shell: bash
