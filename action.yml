@@ -1,6 +1,9 @@
 name: 'Clojure NVD Scan'
 description: 'Scans a Clojure deps.edn project for vulnerabilities'
 inputs:
+  working-directory:
+    description: 'Directory in which to execute the NVD scan'
+    required: false
   config-filename:
     description: 'Config file path'
     required: false
@@ -51,4 +54,5 @@ runs:
 
     - name: NVD Scan
       run: clojure -Sdeps '{:deps {nvd-clojure/nvd-clojure {:mvn/version "${{ inputs.nvd-clojure-version }}"}}}' -M -m nvd.task.check ${{ inputs.config-filename }} "$(clojure -A:${{ inputs.aliases }} -Spath)"
+      working-directory: ${{ inputs.working-directory }}
       shell: bash

@@ -26,7 +26,7 @@ jobs:
           java-version: '8'
       
       - name: NVD Scan
-        uses: vouch-opensource/clojure-nvd-scan@v0.1
+        uses: vouch-opensource/clojure-nvd-scan@v0.2
         with:
           config-filename: '.nvd/config.json'
           aliases: 'dev:main'
@@ -37,3 +37,18 @@ jobs:
 ### Configuration
 
 Refer to [nvd-clojure configuration options](https://github.com/rm-hull/nvd-clojure#configuration-options). This github action uses the json configuration format.
+
+### Working directory
+
+In case you want to run the NVD scan in a different directory than the default GITHUB_WORKSPACE, you can specify the
+`working-directory` option
+
+```yml
+      - name: NVD Scan
+        uses: vouch-opensource/clojure-nvd-scan@v0.2
+        with:
+          working-directory: './cljs'
+          config-filename: '../.nvd/config.json'
+```
+
+Note that in case you also want to specify a config file, you have to provide a relative path from the working-directory.
