@@ -1,6 +1,9 @@
 name: 'Clojure NVD Scan'
 description: 'Scans a Clojure deps.edn project for vulnerabilities'
 inputs:
+  nvd-api-key:
+    description: 'NVD API key'
+    required: true
   working-directory:
     description: 'Directory in which to execute the NVD scan'
     required: false
@@ -56,3 +59,5 @@ runs:
       run: clojure -Sdeps '{:deps {nvd-clojure/nvd-clojure {:mvn/version "${{ inputs.nvd-clojure-version }}"}}}' -M -m nvd.task.check ${{ inputs.config-filename }} "$(clojure -A:${{ inputs.aliases }} -Spath)"
       working-directory: ${{ inputs.working-directory }}
       shell: bash
+      env:
+        NVD_API_TOKEN: ${{ inputs.nvd-api-key }}

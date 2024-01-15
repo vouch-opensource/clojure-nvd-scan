@@ -2,6 +2,8 @@
 
 Github action to run an NVD scan on Clojure deps.edn projects. Uses [rm-hull/nvd-clojure](https://github.com/rm-hull/nvd-clojure).
 
+This product uses the NVD API but is not endorsed or certified by the NVD.
+
 ## Usage
 
 ```yml
