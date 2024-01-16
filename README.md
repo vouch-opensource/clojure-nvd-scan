@@ -6,6 +6,11 @@ This product uses the NVD API but is not endorsed or certified by the NVD.
 
 ## Usage
 
+Before being able to use the action you have to 
+[request an NVD API key](https://nvd.nist.gov/developers/request-an-api-key). 
+It is a good idea to store it as a 
+[Github Actions Secret](https://docs.github.com/en/actions/security-guides/using-secrets-in-github-actions).
+
 ```yml
 name: Example workflow
 
@@ -28,8 +33,9 @@ jobs:
           java-version: '8'
       
       - name: NVD Scan
-        uses: vouch-opensource/clojure-nvd-scan@v0.2
+        uses: vouch-opensource/clojure-nvd-scan@master # To pin the version you can also refer to a specific git sha here.
         with:
+          nvd-api-key: ${{ secrets.NVD_API_KEY }}
           config-filename: '.nvd/config.json'
           aliases: 'dev:main'
           clojure-version: '1.10.3.1040'
@@ -47,7 +53,7 @@ In case you want to run the NVD scan in a different directory than the default G
 
 ```yml
       - name: NVD Scan
-        uses: vouch-opensource/clojure-nvd-scan@v0.2
+        uses: vouch-opensource/clojure-nvd-scan@master
         with:
           working-directory: './cljs'
           config-filename: '../.nvd/config.json'
