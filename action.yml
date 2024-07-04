@@ -23,6 +23,10 @@ inputs:
     description: 'version of the nvd-clojure tool'
     required: false
     default: 'RELEASE'
+  java-opts:
+    description: 'options for the JVM'
+    required: false
+    default: '-Xmx1g'
 runs:
   using: "composite"
   steps:
@@ -61,3 +65,4 @@ runs:
       shell: bash
       env:
         NVD_API_TOKEN: ${{ inputs.nvd-api-key }}
+        JAVA_OPTS: ${{ inputs.java-opts }}
