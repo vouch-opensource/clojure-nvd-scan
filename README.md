@@ -24,13 +24,13 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
 
       - name: Prepare java
-        uses: actions/setup-java@v2
+        uses: actions/setup-java@v4
         with:
-          distribution: 'openjdk'
-          java-version: '8'
+          distribution: 'adopt'
+          java-version: '11'
       
       - name: NVD Scan
         uses: vouch-opensource/clojure-nvd-scan@master # To pin the version you can also refer to a specific git sha here.
@@ -40,6 +40,7 @@ jobs:
           aliases: 'dev:main'
           clojure-version: '1.10.3.1040'
           nvd-clojure-version: 'RELEASE'
+          java-opts: '-Xmx1g'
 ```
 
 ### Configuration
