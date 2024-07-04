@@ -18,7 +18,7 @@ inputs:
   clojure-version:
     description: 'clojure cli version'
     required: false
-    default: '1.10.3.1040'
+    default: '1.11.3.1463'
   nvd-clojure-version:
     description: 'version of the nvd-clojure tool'
     required: false
@@ -27,12 +27,12 @@ runs:
   using: "composite"
   steps:
 
-    - uses: DeLaGuardo/setup-clojure@3.5
+    - uses: DeLaGuardo/setup-clojure@12.5
       with:
         cli: ${{ inputs.clojure-version }}
 
     - name: Cache maven
-      uses: actions/cache@v2.1.7
+      uses: actions/cache@v4
       env:
         cache-name: cache-maven
       with:
@@ -44,7 +44,7 @@ runs:
           ${{ runner.os }}-
 
     - name: Cache gitlibs
-      uses: actions/cache@v2.1.7
+      uses: actions/cache@v4
       env:
         cache-name: cache-gitlibs
       with:
