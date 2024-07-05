@@ -40,6 +40,7 @@ jobs:
           aliases: 'dev:main'
           clojure-version: '1.10.3.1040'
           nvd-clojure-version: 'RELEASE'
+          dependency-check-version: '10.0.1'
           java-opts: '-Xmx1g'
 ```
 

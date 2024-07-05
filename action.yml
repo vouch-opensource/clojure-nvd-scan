@@ -23,6 +23,10 @@ inputs:
     description: 'version of the nvd-clojure tool'
     required: false
     default: 'RELEASE'
+  dependency-check-version:
+    description: 'version of org.owasp/dependency-check-core'
+    required: false
+    default: 'RELEASE'
   java-opts:
     description: 'options for the JVM'
     required: false
@@ -60,7 +64,7 @@ runs:
           ${{ runner.os }}-
 
     - name: NVD Scan
-      run: clojure -Sdeps '{:deps {nvd-clojure/nvd-clojure {:mvn/version "${{ inputs.nvd-clojure-version }}"}}}' -M -m nvd.task.check ${{ inputs.config-filename }} "$(clojure -A:${{ inputs.aliases }} -Spath)"
+      run: clojure -Sdeps '{:deps {nvd-clojure/nvd-clojure {:mvn/version "${{ inputs.nvd-clojure-version }}"} org.owasp/dependency-check-core {:mvn/version "${{ inputs.dependency-check-version }}"}}}' -M -m nvd.task.check ${{ inputs.config-filename }} "$(clojure -A:${{ inputs.aliases }} -Spath)"
       working-directory: ${{ inputs.working-directory }}
       shell: bash
       env:
