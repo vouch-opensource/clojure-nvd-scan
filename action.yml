@@ -50,6 +50,7 @@ runs:
           ${{ runner.os }}-nvd-${{ env.cache-name }}-
           ${{ runner.os }}-nvd-
           ${{ runner.os }}-
+        save-always: true
 
     - name: Cache gitlibs
       uses: actions/cache@v4
@@ -62,6 +63,7 @@ runs:
           ${{ runner.os }}-nvd-${{ env.cache-name }}-
           ${{ runner.os }}-nvd-
           ${{ runner.os }}-
+        save-always: true
 
     - name: NVD Scan
       run: clojure -Sdeps '{:deps {nvd-clojure/nvd-clojure {:mvn/version "${{ inputs.nvd-clojure-version }}"} org.owasp/dependency-check-core {:mvn/version "${{ inputs.dependency-check-version }}"}}}' -M -m nvd.task.check ${{ inputs.config-filename }} "$(clojure -A:${{ inputs.aliases }} -Spath)"
